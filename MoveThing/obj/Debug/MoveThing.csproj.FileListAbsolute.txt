@@ -1,0 +1,12 @@
+C:\Users\brad\Documents\Visual Studio 2015\MoveThing\MoveThing\bin\Debug\MoveThing.exe.config
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\MoveThing.exe.config
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\MoveThing.exe
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\MoveThing.pdb
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\obj\Debug\MoveThing.csprojResolveAssemblyReference.cache
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\obj\Debug\MoveThing.Properties.Resources.resources
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\obj\Debug\MoveThing.csproj.GenerateResource.Cache
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\obj\Debug\MoveThing.exe
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\obj\Debug\MoveThing.pdb
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\obj\Debug\MoveThing.Form1.resources
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\Newtonsoft.Json.dll
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\Newtonsoft.Json.xml
