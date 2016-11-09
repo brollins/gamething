@@ -1,1 +1,1 @@
-{"MovementRestrictions":["steel door"],"MapId":"5","Name":"steel door","Description":"A strong, sturdy door with steel inlay."}
+{"MovementRestrictions":["steel door"],"MovementEnablers":[],"MapId":"5","Name":"steel door","Description":"A strong, sturdy door with steel inlay.","CanUse":false,"CanPickup":false,"ToggleMapId":"","IsVisible":true}

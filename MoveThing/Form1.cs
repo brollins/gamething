@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MoveThing
@@ -21,12 +15,18 @@ namespace MoveThing
         private void Form1_Load(object sender, EventArgs e)
         {
             currentVisibleMap = new VisibleMap(playArea, txtHistory, txtInventory);
-            currentVisibleMap.LoadTerrainMap(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-random.txt");
-            currentVisibleMap.LoadItemMap(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\items-random.txt");
-            currentVisibleMap.LoadMonsterMap(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monsters-random.txt");
+            Layer terrainLayer = new Layer(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-random.txt");
+            currentVisibleMap.Layers.Add(terrainLayer);
+            Layer itemLayer = new Layer(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-random.txt");
+            currentVisibleMap.Layers.Add(itemLayer);
+            Layer monsterLayer = new Layer(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-random.txt");
+            currentVisibleMap.Layers.Add(monsterLayer);
+            Layer fogLayer = new Layer(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\Movething\fog-random.txt");
+            fogLayer.Name = "fog"; 
+            currentVisibleMap.Layers.Add(fogLayer);
 
             currentVisibleMap.RefreshMap();
-
+        
             textBox1.Focus();
          }
 

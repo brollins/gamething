@@ -1,1 +1,1 @@
-{"MovementRestrictions":["chest"],"MapId":"c","Name":"chest","Description":"A strong, sturdy chest with steel inlay."}
+{"MovementRestrictions":["chest"],"MovementEnablers":[],"MapId":"c","Name":"chest","Description":"A strong, sturdy chest with steel inlay.","CanUse":false,"CanPickup":false,"ToggleMapId":"","IsVisible":true}

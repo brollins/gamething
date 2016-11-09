@@ -1,1 +1,1 @@
-{"MapId":"!","Name":"green dragon","Description":"A green dragon."}
+{"MovementRestrictions":["monster"],"MovementEnablers":[],"MapId":"!","Name":"green dragon","Description":"A green dragon.","CanUse":false,"CanPickup":false,"ToggleMapId":"","IsVisible":true}

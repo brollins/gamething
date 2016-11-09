@@ -7,19 +7,41 @@ using System.Threading.Tasks;
 
 namespace MoveThing
 {
-    public class Item
+    public class Resource
     {
+        private Collection<string> movementRestrictions;
         private Collection<string> movementEnablers;
+
         private string mapId;
         private string name;
         private string description;
         private bool canUse;
         private bool canPickup;
         private string toggleMapId;
+        private bool isVisible;
 
-        public Item()
+        public Resource()
         {
+            movementRestrictions = new Collection<string>();
             MovementEnablers = new Collection<string>();
+            mapId = string.Empty;
+            name = string.Empty;
+            description = string.Empty;
+            toggleMapId = string.Empty;
+            isVisible = true;
+        }
+        
+        public Collection<string> MovementRestrictions
+        {
+            get
+            {
+                return movementRestrictions;
+            }
+
+            set
+            {
+                movementRestrictions = value;
+            }
         }
 
         public Collection<string> MovementEnablers
@@ -112,6 +134,18 @@ namespace MoveThing
                 toggleMapId = value;
             }
         }
+
+        public bool IsVisible
+        {
+            get
+            {
+                return isVisible;
+            }
+
+            set
+            {
+                isVisible = value;
+            }
+        }
     }
 }
-

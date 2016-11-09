@@ -1,1 +1,1 @@
-{"MovementEnablers":["brass door plate"],"MapId":"d","Name":"plate","Description":"A very sensitive plate","CanUse":true,"CanPickup":false,"ToggleMapId":"e"}
+{"MovementRestrictions":[],"MovementEnablers":["brass door plate"],"MapId":"d","Name":"plate","Description":"A very sensitive plate","CanUse":true,"CanPickup":false,"ToggleMapId":"e","IsVisible":true}

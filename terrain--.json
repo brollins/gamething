@@ -1,1 +1,1 @@
-{"MovementRestrictions":["stairs down"],"MapId":"-","Name":"stairs down","Description":"Stairs going down."}
+{"MovementRestrictions":["stairs down"],"MovementEnablers":[],"MapId":"-","Name":"stairs down","Description":"Stairs going down.","CanUse":false,"CanPickup":false,"ToggleMapId":"","IsVisible":true}

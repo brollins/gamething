@@ -1,1 +1,1 @@
-{"MovementRestrictions":["brass door","brass door plate"],"MapId":"3","Name":"brass door","Description":"A strong, sturdy door with brass inlay."}
+{"MovementRestrictions":["brass door","brass door plate"],"MovementEnablers":[],"MapId":"3","Name":"brass door","Description":"A strong, sturdy door with brass inlay.","CanUse":false,"CanPickup":false,"ToggleMapId":"","IsVisible":true}

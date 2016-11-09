@@ -1,1 +1,1 @@
-{"MovementRestrictions":["stone"],"MapId":"1","Name":"stone wall","Description":"A segment of wall made out of stone."}
+{"MovementRestrictions":["stone"],"MovementEnablers":[],"MapId":"1","Name":"stone wall","Description":"A segment of wall made out of stone.","CanUse":false,"CanPickup":false,"ToggleMapId":"","IsVisible":true}

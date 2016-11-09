@@ -1,10 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoveThing
 {
@@ -12,132 +7,177 @@ namespace MoveThing
     {
         public static void Generate()
         {
-            Terrain terrain;
-            Item item;
-            Monster monster;
+            Resource resource;
 
-            //Terrain
+            //terrain
 
-            terrain = new Terrain();
-            terrain.MapId = "1";
-            terrain.MovementRestrictions.Add("stone");
-            terrain.Name = "stone wall";
-            terrain.Description = "A segment of wall made out of stone.";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", terrain.MapId), JsonConvert.SerializeObject(terrain));
+            resource = new Resource();
+            resource.MapId = "`";
 
-            terrain = new Terrain();
-            terrain.MapId = "2";
-            terrain.MovementRestrictions.Add("water");
-            terrain.Name = "water";
-            terrain.Description = "Liquid Water.";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", terrain.MapId), JsonConvert.SerializeObject(terrain));
+            resource.IsVisible = false;
+            resource.Name = "";
+            resource.Description = "";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            terrain = new Terrain();
-            terrain.MapId = "3";
-            terrain.MovementRestrictions.Add("brass door");
-            terrain.MovementRestrictions.Add("brass door plate");            
-            terrain.Name = "brass door";
-            terrain.Description = "A strong, sturdy door with brass inlay.";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", terrain.MapId), JsonConvert.SerializeObject(terrain));
+            resource = new Resource();
+            resource.MapId = "1";
+            resource.MovementRestrictions.Add("stone");
+            resource.Name = "stone wall";
+            resource.Description = "A segment of wall made out of stone.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            terrain = new Terrain();
-            terrain.MapId = "4";
-            terrain.Name = "stone tile";
-            terrain.Description = "A segment of tile made out of stone.";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", terrain.MapId), JsonConvert.SerializeObject(terrain));
+            resource = new Resource();
+            resource.MapId = "2";
+            resource.MovementRestrictions.Add("water");
+            resource.Name = "water";
+            resource.Description = "Liquid Water.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            terrain = new Terrain();
-            terrain.MapId = "5";
-            terrain.MovementRestrictions.Add("steel door");
-            terrain.Name = "steel door";
-            terrain.Description = "A strong, sturdy door with steel inlay.";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", terrain.MapId), JsonConvert.SerializeObject(terrain));
+            resource = new Resource();
+            resource.MapId = "3";
+            resource.MovementRestrictions.Add("brass door");
+            resource.MovementRestrictions.Add("brass door plate");            
+            resource.Name = "brass door";
+            resource.Description = "A strong, sturdy door with brass inlay.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            terrain = new Terrain();
-            terrain.MapId = "+";
-            terrain.MovementRestrictions.Add("stairs up");
-            terrain.Name = "stairs up";
-            terrain.Description = "Stairs going up.";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", terrain.MapId), JsonConvert.SerializeObject(terrain));
+            resource = new Resource();
+            resource.MapId = "4";
+            resource.Name = "stone tile";
+            resource.Description = "A segment of tile made out of stone.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            terrain = new Terrain();
-            terrain.MapId = "-";
-            terrain.MovementRestrictions.Add("stairs down");
-            terrain.Name = "stairs down";
-            terrain.Description = "Stairs going down.";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", terrain.MapId), JsonConvert.SerializeObject(terrain));
+            resource = new Resource();
+            resource.MapId = "5";
+            resource.MovementRestrictions.Add("steel door");
+            resource.Name = "steel door";
+            resource.Description = "A strong, sturdy door with steel inlay.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            terrain = new Terrain();
-            terrain.MapId = "c";
-            terrain.MovementRestrictions.Add("chest");
-            terrain.Name = "chest";
-            terrain.Description = "A strong, sturdy chest with steel inlay.";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", terrain.MapId), JsonConvert.SerializeObject(terrain));
+            resource = new Resource();
+            resource.MapId = "+";
+            resource.MovementRestrictions.Add("stairs up");
+            resource.Name = "stairs up";
+            resource.Description = "Stairs going up.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
+            resource = new Resource();
+            resource.MapId = "-";
+            resource.MovementRestrictions.Add("stairs down");
+            resource.Name = "stairs down";
+            resource.Description = "Stairs going down.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
+            resource = new Resource();
+            resource.MapId = "c";
+            resource.MovementRestrictions.Add("chest");
+            resource.Name = "chest";
+            resource.Description = "A strong, sturdy chest with steel inlay.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            // Items
+            // items
 
-            item = new Item();
-            item.MapId = "a";
-            item.Name = "brass key";
-            item.CanPickup = true;
-            item.Description = "A brass key.";
-            item.MovementEnablers.Add("brass door");
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", item.MapId), JsonConvert.SerializeObject(item));
+            resource = new Resource();
+            resource.MapId = "`";
 
-            item = new Item();
-            item.MapId = "c";
-            item.Name = "water walking potion";
-            item.CanPickup = true;
-            item.Description = "A potion of water walking.";
-            item.MovementEnablers.Add("water");
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", item.MapId), JsonConvert.SerializeObject(item));
+            resource.IsVisible = false;
+            resource.Name = "";
+            resource.Description = "";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            item = new Item();
-            item.MapId = "d";
-            item.Name = "plate";
-            item.CanUse = true;
-            item.ToggleMapId = "e";
-            item.Description = "A very sensitive plate";
-            item.MovementEnablers.Add("brass door plate");
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", item.MapId), JsonConvert.SerializeObject(item));
+            resource = new Resource();
+            resource.MapId = "a";
+            resource.CanUse = true;
+            resource.Name = "brass key";
+            resource.CanPickup = true;
+            resource.ToggleMapId = "b";
+            resource.Description = "A brass key.";
+            resource.MovementEnablers.Add("brass door");
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            item = new Item();
-            item.MapId = "e";
-            item.Name = "plate";
-            item.CanUse = true;
-            item.ToggleMapId = "d";
-            item.Description = "A very sensitive plate";
-            item.MovementEnablers.Add("brass door plate");
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", item.MapId), JsonConvert.SerializeObject(item));
+            resource = new Resource();
+            resource.MapId = "b";
+            resource.CanUse = true;
 
-            item = new Item();
-            item.MapId = "f";
-            item.Name = "trophy";
-            item.CanPickup = true;
-            item.Description = "To the victor go the spoils!";
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", item.MapId), JsonConvert.SerializeObject(item));
+            resource.ToggleMapId = "a";
+            resource.Name = "steel sword";
+            resource.CanPickup = true;
+            resource.Description = "A sharp steel sword.";
+            resource.MovementEnablers.Add("resource");
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            item = new Item();
-            item.MapId = "g";
-            item.Name = "steel key";
-            item.CanPickup = true;
-            item.Description = "A steel key.";
-            item.MovementEnablers.Add("steel door");
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", item.MapId), JsonConvert.SerializeObject(item));
+            resource = new Resource();
+            resource.MapId = "c";
+            resource.Name = "water walking potion";
+            resource.CanPickup = true;
+            resource.Description = "A potion of water walking.";
+            resource.MovementEnablers.Add("water");
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
+            resource = new Resource();
+            resource.MapId = "d";
+            resource.Name = "plate";
+            resource.CanUse = true;
+            resource.ToggleMapId = "e";
+            resource.Description = "A very sensitive plate";
+            resource.MovementEnablers.Add("brass door plate");
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            // Monster
+            resource = new Resource();
+            resource.MapId = "e";
+            resource.Name = "plate";
+            resource.CanUse = true;
+            resource.ToggleMapId = "d";
+            resource.Description = "A very sensitive plate";
+            resource.MovementEnablers.Add("brass door plate");
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            monster = new Monster();
-            monster.MapId = "!";
-            monster.Name = "green dragon";
-            monster.Description = "A green dragon.";            
-            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-{0}.json", monster.MapId), JsonConvert.SerializeObject(monster));
+            resource = new Resource();
+            resource.MapId = "f";
+            resource.Name = "trophy";
+            resource.CanPickup = true;
+            resource.Description = "To the victor go the spoils!";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
-            
+            resource = new Resource();
+            resource.MapId = "g";
+            resource.Name = "steel key";
+            resource.CanPickup = true;
+            resource.Description = "A steel key.";
+            resource.MovementEnablers.Add("steel door");
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
+            // monsters
+
+            resource = new Resource();
+            resource.MapId = "`";
+            resource.IsVisible = false;
+            resource.Name = "";
+            resource.Description = "";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
+
+            resource = new Resource();
+            resource.MapId = "!";
+            resource.Name = "green dragon";
+            resource.Description = "A green dragon.";
+            resource.MovementRestrictions.Add("monster");            
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
+
+            // fog
+
+            resource = new Resource();
+            resource.MapId = "o";
+            resource.Name = "";
+            resource.ToggleMapId = "t";
+            resource.Description = "opaque fog";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\fog-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
+
+            resource = new Resource();
+            resource.MapId = "t";
+            resource.IsVisible = false;
+            resource.Name = "";
+            resource.Description = "transparent fog";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\fog-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
         }
     }
 }

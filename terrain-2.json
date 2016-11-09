@@ -1,1 +1,1 @@
-{"MovementRestrictions":["water"],"MapId":"2","Name":"water","Description":"Liquid Water."}
+{"MovementRestrictions":["water"],"MovementEnablers":[],"MapId":"2","Name":"water","Description":"Liquid Water.","CanUse":false,"CanPickup":false,"ToggleMapId":"","IsVisible":true}

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace MoveThing
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Diagnostics;
     using System.IO;
 
     public class PointI
@@ -38,7 +33,6 @@ namespace MoveThing
 
     public class Dungeon
     {
-
         // misc. messages to print
         const string MsgXSize = "X size of dungeon: \t";
 
@@ -76,7 +70,6 @@ namespace MoveThing
 
         readonly Action<string> _logger;
 
-
         public Dungeon(Random rnd, Action<string> logger)
         {
             _rnd = rnd;
@@ -95,7 +88,6 @@ namespace MoveThing
         public static bool IsWall(int x, int y, int xlen, int ylen, int xt, int yt, Direction d)
         {
             Func<int, int, int> a = GetFeatureLowerBound;
-
             Func<int, int, int> b = IsFeatureWallBound;
             switch (d)
             {
@@ -108,7 +100,6 @@ namespace MoveThing
                 case Direction.West:
                     return xt == x || xt == x - xlen + 1 || yt == a(y, ylen) || yt == b(y, ylen);
             }
-
             throw new InvalidOperationException();
         }
 
@@ -371,6 +362,7 @@ namespace MoveThing
             StringBuilder dungeonMap = new StringBuilder();
             StringBuilder dungeonItemsMap = new StringBuilder();
             StringBuilder dungeonMonsterMap = new StringBuilder();
+            StringBuilder dungeonFogMap = new StringBuilder();
 
             for (int y = 0; y < this._ysize; y++)
             {
@@ -379,7 +371,7 @@ namespace MoveThing
                     dungeonMap.Append(GetCellTile(x, y));
                     dungeonItemsMap.Append(GetCellTile(x, y));
                     dungeonMonsterMap.Append(GetCellTile(x, y));
-
+                    dungeonFogMap.Append("o");
                 }
 
                 if (this._xsize <= xmax)
@@ -387,36 +379,35 @@ namespace MoveThing
                     dungeonMap.AppendLine();
                     dungeonItemsMap.AppendLine();
                     dungeonMonsterMap.AppendLine();
-
+                    dungeonFogMap.AppendLine();
                 }
             }
 
-            Debug.WriteLine(dungeonMap);
-            Debug.WriteLine(dungeonItemsMap);
-            Debug.WriteLine(dungeonMonsterMap);
+            ReplaceOnMap(dungeonMonsterMap, "C", "!");
+            ReplaceOnMap(dungeonMonsterMap, "1", "`");
+            ReplaceOnMap(dungeonMonsterMap, "4", "`");
+            ReplaceOnMap(dungeonMonsterMap, "+", "`");
+            ReplaceOnMap(dungeonMonsterMap, "-", "`");
 
-            dungeonMonsterMap.Replace("C", "!");
-            dungeonMonsterMap.Replace("1", "`");
-            dungeonMonsterMap.Replace("4", "`");
-            dungeonMonsterMap.Replace("+", "`");
-            dungeonMonsterMap.Replace("-", "`");
+            ReplaceOnMap(dungeonItemsMap, "1", "`");
+            ReplaceOnMap(dungeonItemsMap, "4", "`");
+            ReplaceOnMap(dungeonItemsMap, "+", "a");
+            ReplaceOnMap(dungeonItemsMap, "-", "b");
+            ReplaceOnMap(dungeonItemsMap, "C", "`");
 
-            dungeonItemsMap.Replace("1", "`");
-            dungeonItemsMap.Replace("4", "`");
-            dungeonItemsMap.Replace("+", "a");
-            dungeonItemsMap.Replace("-", "b");
-            dungeonItemsMap.Replace("C", "`");
-
-            dungeonMap.Replace("+", "4");
-            dungeonMap.Replace("-", "4");
-            dungeonMap.Replace("C", "4");
+            ReplaceOnMap(dungeonMap, "+", "4");
+            ReplaceOnMap(dungeonMap, "-", "4");
+            ReplaceOnMap(dungeonMap, "C", "4");
 
             File.WriteAllText(Path.Combine(path, string.Format("terrain-{0}.txt", name)), dungeonMap.ToString());
-            File.WriteAllText(Path.Combine(path, string.Format("items-{0}.txt", name)), dungeonItemsMap.ToString());
-            File.WriteAllText(Path.Combine(path, string.Format("monsters-{0}.txt", name)), dungeonMonsterMap.ToString());
+            File.WriteAllText(Path.Combine(path, string.Format("item-{0}.txt", name)), dungeonItemsMap.ToString());
+            File.WriteAllText(Path.Combine(path, string.Format("monster-{0}.txt", name)), dungeonMonsterMap.ToString());
+            File.WriteAllText(Path.Combine(path, string.Format("fog-{0}.txt", name)), dungeonFogMap.ToString());
+        }
 
-
-
+        private void ReplaceOnMap(StringBuilder map, string currentValue, string newValue)
+        {
+            map.Replace(currentValue, newValue);
         }
 
         public Direction RandomDirection()
@@ -670,6 +661,7 @@ namespace MoveThing
                             break;
                         }
                     }
+
                     else if (state == 1)
                     {
                         if (ways == 0)
@@ -680,6 +672,7 @@ namespace MoveThing
                             break;
                         }
                     }
+
                     else if (state > 1)
                     {
                         if (ways == 0)
