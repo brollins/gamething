@@ -2,27 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MoveThing
 {
     public class VisibleMap
     {
-        string[] terrainMap;
-        string[] itemMap;
-        string[] monsterMap;
-        Dictionary<string, Terrain> terrainTypes;
-        Dictionary<string, Item> itemTypes;
-        Dictionary<string, Monster> monsterTypes;
-        Dictionary<string, Item> inventory;
-        Dictionary<string, Bitmap> sprites;
+        Dictionary<string, Resource> inventory;
         Dictionary<string, string> environmentMovementEnablers;
+        Collection<Layer> layers;
         private PictureBox drawingContext;
         private TextBox txtHistory;
         private TextBox txtInventory;
@@ -36,33 +27,27 @@ namespace MoveThing
 
         StringBuilder history;
 
-
         public VisibleMap(PictureBox drawingContext, TextBox txtHistory, TextBox txtInventory)
         {
             this.drawingContext = drawingContext;
             this.txtHistory = txtHistory;
             this.txtInventory = txtInventory;
 
-            terrainTypes = new Dictionary<string, Terrain>();
-            itemTypes = new Dictionary<string, Item>();
-            monsterTypes = new Dictionary<string, Monster>();
-            inventory = new Dictionary<string, Item>();
+            inventory = new Dictionary<string, Resource>();
             environmentMovementEnablers = new Dictionary<string, string>();
+            Layers = new Collection<Layer>();
             random = new Random();
 
-
-            sprites = new Dictionary<string, Bitmap>();
-            sprites.Add("wizard", new Bitmap(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\Sprites\wizard.png"));
-
-            LoadTerrainResources();
-            LoadItemResources();
-            LoadMonsterResources();
+            //sprites = new Dictionary<string, Bitmap>();
 
             godMode = false;
 
-            dungeon.CreateDungeon(101, 101, 400);
+            dungeon.CreateDungeon(70, 70, 400);
             dungeon.SaveDungeon(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\", "random");
             Tile[] tiles = dungeon.GetDungeon();
+
+            CurrentRow = 35;
+            currentColumn = 35;
 
             monsterMoveTimer = new Timer();
             monsterMoveTimer.Tick -= MonsterMoveTimer_Tick;
@@ -71,9 +56,8 @@ namespace MoveThing
             monsterMoveTimer.Start();
 
             history = new StringBuilder();
-            
-            ResourceGenerator.Generate();
 
+            ResourceGenerator.Generate();
         }
 
         private void MonsterMoveTimer_Tick(object sender, EventArgs e)
@@ -84,74 +68,62 @@ namespace MoveThing
 
         private void MoveMonster()
         {
-            string[] monsterMapSnapshot = (string[])monsterMap.Clone();
-            for (int row = 0; row < monsterMapSnapshot.Length; row++)
-            {
-                for (int column = 0; column < monsterMapSnapshot[row].Length; column++)
-                {
-                    if (monsterMapSnapshot[row][column] != '`')
-                    {
-                        string currentMonsterId = monsterMapSnapshot[row][column].ToString();
-                        for (int i = 0; i < 150; i++)
-                        {
-                            int direction = random.Next(0, 4);
+            //string[] monsterMapSnapshot = (string[])monsterMap.Clone();
+            //for (int row = 0; row < monsterMapSnapshot.Length; row++)
+            //{
+            //    for (int column = 0; column < monsterMapSnapshot[row].Length; column++)
+            //    {
+            //        if (monsterMapSnapshot[row][column] != '`')
+            //        {
+            //            string currentMonsterId = monsterMapSnapshot[row][column].ToString();
+            //            for (int i = 0; i < 150; i++)
+            //            {
+            //                int direction = random.Next(0, 4);
 
-                            if (direction == 0)
-                            {
-                                if (CanMoveTo(terrainMap[row + 1][column].ToString()))
-                                {
-                                    ReplaceItemOnMap(monsterMap, row, column, "`");
-                                    ReplaceItemOnMap(monsterMap, row + 1, column, currentMonsterId);
-                                    break;
-                                }
-                            }
-                            if (direction == 1)
-                            {
-                                if (CanMoveTo(terrainMap[row - 1][column].ToString()))
-                                {
-                                    ReplaceItemOnMap(monsterMap, row, column, "`");
-                                    ReplaceItemOnMap(monsterMap, row - 1, column, currentMonsterId);
-                                    break;
-                                }
-                            }
-                            if (direction == 2)
-                            {
-                                if (CanMoveTo(terrainMap[row][column - 1].ToString()))
-                                {
-                                    ReplaceItemOnMap(monsterMap, row, column, "`");
-                                    ReplaceItemOnMap(monsterMap, row, column - 1, currentMonsterId);
-                                    break;
-                                }
-                            }
-                            if (direction == 3)
-                            {
-                                if (CanMoveTo(terrainMap[row][column + 1].ToString()))
-                                {
-                                    ReplaceItemOnMap(monsterMap, row, column, "`");
-                                    ReplaceItemOnMap(monsterMap, row, column + 1, currentMonsterId);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            monsterMoveTimer.Stop();
-            monsterMoveTimer.Start();
+            //                if (direction == 0)
+            //                {
+            //                    if (CanMonsterMoveTo(terrainMap[row + 1][column].ToString()))
+            //                    {
+            //                        ReplaceItemOnMap(monsterMap, row, column, "`");
+            //                        ReplaceItemOnMap(monsterMap, row + 1, column, currentMonsterId);
+            //                        break;
+            //                    }
+            //                }
+            //                if (direction == 1)
+            //                {
+            //                    if (CanMonsterMoveTo(terrainMap[row - 1][column].ToString()))
+            //                    {
+            //                        ReplaceItemOnMap(monsterMap, row, column, "`");
+            //                        ReplaceItemOnMap(monsterMap, row - 1, column, currentMonsterId);
+            //                        break;
+            //                    }
+            //                }
+            //                if (direction == 2)
+            //                {
+            //                    if (CanMonsterMoveTo(terrainMap[row][column - 1].ToString()))
+            //                    {
+            //                        ReplaceItemOnMap(monsterMap, row, column, "`");
+            //                        ReplaceItemOnMap(monsterMap, row, column - 1, currentMonsterId);
+            //                        break;
+            //                    }
+            //                }
+            //                if (direction == 3)
+            //                {
+            //                    if (CanMonsterMoveTo(terrainMap[row][column + 1].ToString()))
+            //                    {
+            //                        ReplaceItemOnMap(monsterMap, row, column, "`");
+            //                        ReplaceItemOnMap(monsterMap, row, column + 1, currentMonsterId);
+            //                        break;
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //monsterMoveTimer.Stop();
+            //monsterMoveTimer.Start();
         }
 
-        public Dictionary<string, Terrain> TerrainTypes
-        {
-            get
-            {
-                return terrainTypes;
-            }
-
-            set
-            {
-                terrainTypes = value;
-            }
-        }
 
         public int CurrentRow
         {
@@ -205,63 +177,17 @@ namespace MoveThing
             }
         }
 
-        public void LoadTerrainResources()
+        public Collection<Layer> Layers
         {
-            string[] resources = Directory.GetFiles(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\", "terrain-*.json");
-            foreach (var file in resources)
+            get
             {
-                Terrain currentTerrain = JsonConvert.DeserializeObject<Terrain>(File.ReadAllText(file));
-                terrainTypes.Add(currentTerrain.MapId, currentTerrain);
+                return layers;
             }
-        }
 
-        public void LoadItemResources()
-        {
-            string[] resources = Directory.GetFiles(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\", "item-*.json");
-            foreach (var file in resources)
+            set
             {
-                Item currentItem = JsonConvert.DeserializeObject<Item>(File.ReadAllText(file));
-                itemTypes.Add(currentItem.MapId, currentItem);
+                layers = value;
             }
-        }
-
-        public void LoadMonsterResources()
-        {
-            string[] resources = Directory.GetFiles(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\", "monster-*.json");
-            foreach (var file in resources)
-            {
-                Monster currentMonster = JsonConvert.DeserializeObject<Monster>(File.ReadAllText(file));
-                monsterTypes.Add(currentMonster.MapId, currentMonster);
-            }
-        }
-
-        public void LoadTerrainMap(string file)
-        {
-            terrainMap = File.ReadAllLines(file);           
-            
-        }
-    
-
-        public void LoadItemMap(string file)
-        {
-            itemMap = File.ReadAllLines(file);
-
-            for (int row = 0; row < itemMap.Length; row++)
-            {
-                for (int column = 0; column < itemMap[row].Length; column++)
-                {
-                    if (itemMap[row][column].ToString() == "a")
-                    {
-                        currentRow = row;
-                        currentColumn = column;
-                    }
-                }
-            }
-        }
-
-        public void LoadMonsterMap(string file)
-        {
-            monsterMap = File.ReadAllLines(file);
         }
 
         public void AddToHistory(string description)
@@ -271,59 +197,55 @@ namespace MoveThing
 
         public void MoveUp()
         {
-            if (CanMoveTo(terrainMap[currentRow - 1][currentColumn].ToString()))
+            if (CanHeroMoveTo(currentRow - 1, currentColumn))
             {
                 AddToHistory("The wizard moved north.");
                 CurrentRow -= 1;
+                ClearFog(3);
                 RefreshMap();
             }
         }
 
         public void MoveDown()
         {
-            if (CanMoveTo(terrainMap[currentRow + 1][currentColumn].ToString()))
+            if (CanHeroMoveTo(currentRow + 1, currentColumn))
             {
                 AddToHistory("The wizard moved south.");
-
                 CurrentRow += 1;
+                ClearFog(3);
                 RefreshMap();
-
             }
         }
 
         public void MoveRight()
         {
-            if (CanMoveTo(terrainMap[currentRow][currentColumn + 1].ToString()))
+            if (CanHeroMoveTo(currentRow, currentColumn + 1))
             {
                 AddToHistory("The wizard moved east.");
-
                 CurrentColumn += 1;
+                ClearFog(3);
                 RefreshMap();
-
-
             }
         }
 
         public void MoveLeft()
         {
-            if (CanMoveTo(terrainMap[currentRow][currentColumn - 1].ToString()))
+            if (CanHeroMoveTo(currentRow, currentColumn - 1))
             {
                 AddToHistory("The wizard moved west.");
-
                 CurrentColumn -= 1;
+                ClearFog(3);
                 RefreshMap();
-
-
             }
         }
 
-        public bool CanMoveTo(string terrainType)
+        public bool CheckMovementByMap(Resource resource)
         {
             if (godMode)
                 return true;
             bool canMoveTo = false;
             int movementEnablerCount = 0;
-            foreach (var restriction in terrainTypes[terrainType].MovementRestrictions)
+            foreach (var restriction in resource.MovementRestrictions)
             {
                 foreach (var inventoryItem in inventory.Values)
                 {
@@ -332,7 +254,7 @@ namespace MoveThing
                         if (movementEnabler == restriction)
                         {
                             movementEnablerCount++;
-                            AddToHistory(string.Format("The wizard used the {0} on the {1}.", inventoryItem.Name, terrainTypes[terrainType].Name));
+                            AddToHistory(string.Format("The wizard used the {0} on the {1}.", inventoryItem.Name, resource.Name));
                         }
                     }
                 }
@@ -345,17 +267,73 @@ namespace MoveThing
                 }
             }
 
-            if (terrainTypes[terrainType].MovementRestrictions.Count == movementEnablerCount)
+            if (resource.MovementRestrictions.Count == movementEnablerCount)
             {
                 canMoveTo = true;
             }
-            if (terrainTypes[terrainType].MovementRestrictions.Count == 0)
+            if (resource.MovementRestrictions.Count == 0)
             {
                 canMoveTo = true;
             }
             if (canMoveTo == false)
             {
-                AddToHistory(string.Format("You shall not pass this {0}.", terrainTypes[terrainType].Name));
+                AddToHistory(string.Format("You shall not pass this {0}.", resource.Name));
+                RefreshMap();
+            }
+            return canMoveTo;
+        }
+
+        public bool CanHeroMoveTo(int row, int column)
+        {
+            bool canMoveTo = true;
+            foreach (var layer in layers)
+            {
+                if (!CheckMovementByMap(layer.GetResource(row, column)))
+                {
+                    canMoveTo = false;
+                    break;
+                }
+            }
+            return canMoveTo;
+        }
+
+        public bool CanMonsterMoveTo(Resource resource)
+        {
+            if (godMode)
+                return true;
+            bool canMoveTo = false;
+            int movementEnablerCount = 0;
+            foreach (var restriction in resource.MovementRestrictions)
+            {
+                foreach (var inventoryItem in inventory.Values)
+                {
+                    foreach (var movementEnabler in inventoryItem.MovementEnablers)
+                    {
+                        if (movementEnabler == restriction)
+                        {
+                            movementEnablerCount++;
+                        }
+                    }
+                }
+                foreach (var enabler in environmentMovementEnablers)
+                {
+                    if (enabler.Value == restriction)
+                    {
+                        movementEnablerCount++;
+                    }
+                }
+            }
+
+            if (resource.MovementRestrictions.Count == movementEnablerCount)
+            {
+                canMoveTo = true;
+            }
+            if (resource.MovementRestrictions.Count == 0)
+            {
+                canMoveTo = true;
+            }
+            if (canMoveTo == false)
+            {
                 RefreshMap();
             }
             return canMoveTo;
@@ -363,32 +341,29 @@ namespace MoveThing
 
         public void Pickup()
         {
-            if (itemTypes.ContainsKey(itemMap[currentRow][currentColumn].ToString()))
+            foreach (var layer in layers)
             {
-                Item item = itemTypes[(itemMap[currentRow][currentColumn].ToString())];
-                if (item.CanPickup)
+                Resource currentResource = layer.GetResource(currentRow, currentColumn);
+                if (currentResource.CanPickup)
                 {
-                    inventory.Add(item.MapId, item);
-                    AddToHistory(string.Format("The wizard picked up a {0}.", item.Name));
-
-                    ReplaceItemOnMap(itemMap, currentRow, currentColumn, "`");
+                    inventory.Add(currentResource.MapId, currentResource);
+                    AddToHistory(string.Format("The wizard picked up a {0}.", currentResource.Name));
+                    layer.DeleteResource(currentRow, currentColumn);
                 }
-                else
-                {
-                    AddToHistory("That can't be picked up.");
-                }
-                RefreshMap();
             }
+
+            RefreshMap();
+
         }
 
         public void Use()
         {
-            if (itemTypes.ContainsKey(itemMap[currentRow][currentColumn].ToString()))
+            foreach (var layer in layers)
             {
-                Item item = itemTypes[(itemMap[currentRow][currentColumn].ToString())];
-                if (item.CanUse)
+                Resource currentResource = layer.GetResource(currentRow, currentColumn);
+                if (currentResource.CanUse)
                 {
-                    foreach (var enabler in item.MovementEnablers)
+                    foreach (var enabler in currentResource.MovementEnablers)
                     {
                         if (environmentMovementEnablers.ContainsKey(enabler))
                         {
@@ -401,13 +376,10 @@ namespace MoveThing
                             AddToHistory("Something has changed...");
                         }
                     }
-                    ReplaceItemOnMap(itemMap, currentRow, currentColumn, item.ToggleMapId);
+
+                    layer.ToggleResource(currentRow, currentColumn);
                 }
-                else
-                {
-                    AddToHistory("There is nothing to use here.");
-                }
-                RefreshMap();
+                RefreshMap();            
             }
         }
 
@@ -419,42 +391,26 @@ namespace MoveThing
             map[row] = aStringBuilder.ToString();
         }
 
-
-        public void DrawMap(string[] map, Graphics visibleGraphics, string mapType)
-        {
-
-            for (int row = 0; row < map.Length; row++)
-            {
-                for (int column = 0; column < map[row].Length; column++)
-                {
-                    if (!sprites.ContainsKey(string.Format("{0}-{1}", mapType, map[row][column].ToString())) && map[row][column] != '`')
-                    {
-                        Bitmap currentSprite = new Bitmap(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\Sprites\{0}-{1}.png", mapType, map[row][column]));
-                        sprites.Add(string.Format("{0}-{1}", mapType, map[row][column].ToString()), currentSprite);
-                    }
-                    if (map[row][column] != '`')
-                    {
-                        visibleGraphics.DrawImageUnscaled(sprites[string.Format("{0}-{1}", mapType, map[row][column].ToString())], column * spriteSize - (CurrentColumn * spriteSize) + drawingContext.Width / 2, row * spriteSize - (CurrentRow * spriteSize) + drawingContext.Height / 2);
-                    }
-                }
-            }
-        }
-
-
         public void RefreshMap()
         {
-            Bitmap visibleBitmap = new Bitmap(terrainMap[0].Length * spriteSize, terrainMap.Length * spriteSize);
+            Bitmap visibleBitmap = new Bitmap(drawingContext.Width, drawingContext.Height);
             Graphics visibleGraphics = Graphics.FromImage(visibleBitmap);
 
-            DrawMap(terrainMap, visibleGraphics, "terrain");
-            DrawMap(itemMap, visibleGraphics, "item");
-            DrawMap(monsterMap, visibleGraphics, "monster");
+            int numberOfVisibleRows = drawingContext.Height / 32;
+            int numberOfVisibleColumns = drawingContext.Width / 32;
 
-           
-            visibleGraphics.DrawImageUnscaled(sprites["wizard"], drawingContext.Width / 2, drawingContext.Height / 2);
-            if (drawingContext.Image != null) {
+            foreach (var layer in layers)
+            {
+                layer.Draw(visibleBitmap, currentRow - numberOfVisibleRows / 2, currentColumn - numberOfVisibleColumns / 2, currentRow + numberOfVisibleRows / 2, currentColumn + numberOfVisibleColumns / 2);
+            }
+
+            visibleGraphics.DrawImageUnscaled(new Bitmap(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\wizard.png"), drawingContext.Width / 2, drawingContext.Height / 2);
+
+            if (drawingContext.Image != null)
+            {
                 drawingContext.Image.Dispose();
             }
+
             drawingContext.Image = visibleBitmap;
             Application.DoEvents();
             txtHistory.Text = history.ToString();
@@ -462,6 +418,29 @@ namespace MoveThing
             foreach (var inventoryItem in inventory.Values)
             {
                 txtInventory.Text += inventoryItem.Name + Environment.NewLine;
+            }
+        }
+
+        public void ClearFog(int distance)
+        {
+            Layer fogLayer = null;
+
+            foreach (var layer in layers)
+            {
+                if (layer.Name == "fog")
+                {
+                    fogLayer = layer;
+                }
+            }
+            for (int row = 0; row < layers[0].Height; row++)
+            {
+                for (int column = 0; column < layers[0].Width; column++)
+                {
+                    if (Math.Abs(column - currentColumn) <= distance && Math.Abs(row - currentRow) <= distance)
+                    {
+                        fogLayer.ToggleResource(row, column);
+                    }
+                }
             }
         }
     }
