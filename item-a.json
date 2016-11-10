@@ -1,1 +1,1 @@
-{"MovementRestrictions":[],"MovementEnablers":["brass door"],"MapId":"a","Name":"brass key","Description":"A brass key.","CanUse":true,"CanPickup":true,"ToggleMapId":"b","IsVisible":true}
+{"MovementRestrictions":[],"MovementEnablers":["brass door"],"MapId":"a","Name":"brass key","Description":"A brass key.","CanUse":true,"CanPickup":true,"ToggleMapId":"b","IsVisible":true,"IsFog":false,"CanMove":false,"Speed":0,"Readiness":0,"SpeedDice":"0","HealthDice":"0","Health":0,"CanBeDestroyed":false,"DamageEnablers":[],"DamageRestrictions":[]}

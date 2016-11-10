@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using DiceNotation;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Dijkstra.NET;
+using Dijkstra.NET.Model;
+using System.Collections.ObjectModel;
 
 namespace MoveThing
 {
@@ -20,14 +21,16 @@ namespace MoveThing
         int width;
         string file;
         string name;
+        Random random;
 
         Dictionary<string, Resource> resources;
         Dictionary<string, Bitmap> sprites;
 
         public Layer(string file)
         {
-            resources = new Dictionary<string, Resource>();
+            Resources = new Dictionary<string, Resource>();
             sprites = new Dictionary<string, Bitmap>();
+            random = new Random();
             LoadMap(file);
         }
 
@@ -83,6 +86,19 @@ namespace MoveThing
             }
         }
 
+        public Dictionary<string, Resource> Resources
+        {
+            get
+            {
+                return resources;
+            }
+
+            set
+            {
+                resources = value;
+            }
+        }
+
         public void LoadMap(string file)
         {
             string[] map = System.IO.File.ReadAllLines(file);
@@ -101,20 +117,25 @@ namespace MoveThing
                     string resourceFileName = string.Format("{0}-{1}.json", resourceType, resourceIdToLoad);
                     string fullResourcePathFileName = Path.Combine(resourcePath, resourceFileName);
 
-                    resources.Add(key, JsonConvert.DeserializeObject<Resource>(System.IO.File.ReadAllText(fullResourcePathFileName)));
+                    Resource resource = JsonConvert.DeserializeObject<Resource>(System.IO.File.ReadAllText(fullResourcePathFileName));
+                    resource.Health = Dice.Parse(resource.HealthDice).Roll().Value;
+                    resource.Speed = Dice.Parse(resource.SpeedDice).Roll().Value;
+
+                    Resources.Add(key, resource);
                 }
             }
         }
 
         public Resource GetResource(int row, int column)
         {
-            return resources[string.Format("{0}-{1}", row, column)];
+            return Resources[string.Format("{0}-{1}", row, column)];
         }
 
         public void MoveResource(int fromRow, int fromColumn, int toRow, int toColumn)
         {
-            Resource fromResource = resources[string.Format("{0}, {1}", fromRow.ToString(), fromColumn.ToString())];
-            resources[string.Format("{0}, {1}", toRow.ToString(), toColumn.ToString())] = fromResource;
+            Resource fromResource = Resources[string.Format("{0}-{1}", fromRow.ToString(), fromColumn.ToString())];
+            Resources[string.Format("{0}-{1}", toRow.ToString(), toColumn.ToString())] = fromResource;
+            DeleteResource(fromRow, fromColumn);
         }
 
         public void DeleteResource(int row, int column)
@@ -126,7 +147,7 @@ namespace MoveThing
 
         public void UpdateResource(int row, int column, Resource updatedResource)
         {
-            resources[string.Format("{0}-{1}", row.ToString(), column.ToString())] = updatedResource;
+            Resources[string.Format("{0}-{1}", row.ToString(), column.ToString())] = updatedResource;
         }
 
         public void ToggleResource(int row, int column)
@@ -143,16 +164,32 @@ namespace MoveThing
                 UpdateResource(row, column, JsonConvert.DeserializeObject<Resource>(System.IO.File.ReadAllText(fullResourcePathFileName)));
             }
         }
+        public void ClearFog(int distance, int currentRow, int currentColumn)
+        {
+            for (int row = 0; row < Height; row++)
+            {
+                for (int column = 0; column < Width; column++)
+                {
+                    if (Math.Abs(column - currentColumn) <= distance && Math.Abs(row - currentRow) <= distance)
+                    {
+                        if (GetResource(row, column).IsFog)
+                        {
+                            ToggleResource(row, column);
+                        }
+                    }
+                }
+            }
+        }
 
         public void Draw(Bitmap bitmap, int upperLeftRow, int upperLeftColumn, int lowerRightRow, int lowerRightColumn)
-        {
+        {            
             for (int row = upperLeftRow; row < lowerRightRow; row++)
             {
                 for (int column = upperLeftColumn; column < lowerRightColumn; column++)
                 {
                     if (row > 0 && row < height && column > 0 && column < width)
                     {
-                        Resource currentResource = resources[string.Format("{0}-{1}", row, column)];
+                        Resource currentResource = Resources[string.Format("{0}-{1}", row, column)];
                         if (currentResource.IsVisible)
                         {
                             if (!sprites.ContainsKey(currentResource.MapId))
@@ -171,5 +208,26 @@ namespace MoveThing
                 }
             }
         }
+
+        public void BuildShortestDistanceGraph()
+        {
+            
+            var graph = new Graph<int, string>();
+            graph.AddNode(0);
+            graph.AddNode(1);
+            graph.AddNode(2);
+            graph.AddNode(3);
+
+            graph.Connect(0, 1, 1, string.Empty);
+            graph.Connect(1, 2, 1, string.Empty);
+            graph.Connect(2, 3, 1, string.Empty);
+            graph.Connect(0, 3, 10, string.Empty);
+
+            var dijkstra = new Dijkstra<int, string>(graph);
+            DijkstraResult result = dijkstra.Process(0, 3); //result contains the shortest path
+            IEnumerable<uint> results = result.GetPath();
+
+        }
+       
     }
 }

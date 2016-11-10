@@ -104,6 +104,7 @@ namespace MoveThing
             resource.CanPickup = true;
             resource.Description = "A sharp steel sword.";
             resource.MovementEnablers.Add("resource");
+            resource.DamageEnablers.Add("blade");
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
             resource = new Resource();
@@ -112,6 +113,15 @@ namespace MoveThing
             resource.CanPickup = true;
             resource.Description = "A potion of water walking.";
             resource.MovementEnablers.Add("water");
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
+
+            resource = new Resource();
+            resource.MapId = "h";
+            resource.Name = "fly swatter";
+            resource.CanPickup = true;
+            resource.Description = "A swatter of flies.";
+            resource.MovementEnablers.Add("water");
+            resource.DamageEnablers.Add("blunt");
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
             resource = new Resource();
@@ -159,21 +169,43 @@ namespace MoveThing
             resource = new Resource();
             resource.MapId = "!";
             resource.Name = "green dragon";
+            resource.CanMove = true;
+            resource.SpeedDice = "10";
+            resource.HealthDice = "2d6+3";
+            resource.Readiness = 0;
+            resource.CanBeDestroyed = true;
             resource.Description = "A green dragon.";
+            resource.DamageRestrictions.Add("blade");
             resource.MovementRestrictions.Add("monster");            
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
+
+            resource = new Resource();
+            resource.MapId = "@";
+            resource.Name = "ugly little fly";
+            resource.CanMove = true;
+            resource.SpeedDice = "10";
+            resource.HealthDice = "1d4";
+            resource.Readiness = 0;
+            resource.DamageRestrictions.Add("blunt");
+            resource.CanBeDestroyed = true;
+            resource.Description = "A hideous flying bug.";
+            resource.MovementRestrictions.Add("monster");
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
+
 
             // fog
 
             resource = new Resource();
             resource.MapId = "o";
             resource.Name = "";
+            resource.IsFog = true;
             resource.ToggleMapId = "t";
             resource.Description = "opaque fog";
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\fog-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
             resource = new Resource();
             resource.MapId = "t";
+            resource.IsFog = true;
             resource.IsVisible = false;
             resource.Name = "";
             resource.Description = "transparent fog";

@@ -23,7 +23,9 @@ namespace MoveThing
         Upstairs,
         Downstairs,
         StoneWall,
-        Chest
+        Chest,
+        Fly,
+        FlySwatter
     };
 
     public enum Direction
@@ -351,6 +353,10 @@ namespace MoveThing
                     return '-';
                 case Tile.Chest:
                     return 'C';
+                case Tile.Fly:
+                    return '6';
+                case Tile.FlySwatter:
+                    return 'h';
                 default:
                     throw new ArgumentOutOfRangeException("x,y");
             }
@@ -388,16 +394,22 @@ namespace MoveThing
             ReplaceOnMap(dungeonMonsterMap, "4", "`");
             ReplaceOnMap(dungeonMonsterMap, "+", "`");
             ReplaceOnMap(dungeonMonsterMap, "-", "`");
-
+            ReplaceOnMap(dungeonMonsterMap, "6", "@");
+            ReplaceOnMap(dungeonMonsterMap, "h", "`");
+            
             ReplaceOnMap(dungeonItemsMap, "1", "`");
             ReplaceOnMap(dungeonItemsMap, "4", "`");
             ReplaceOnMap(dungeonItemsMap, "+", "a");
             ReplaceOnMap(dungeonItemsMap, "-", "b");
             ReplaceOnMap(dungeonItemsMap, "C", "`");
-
+            ReplaceOnMap(dungeonItemsMap, "6", "`");
+            
             ReplaceOnMap(dungeonMap, "+", "4");
             ReplaceOnMap(dungeonMap, "-", "4");
             ReplaceOnMap(dungeonMap, "C", "4");
+            ReplaceOnMap(dungeonMap, "6", "4");
+            ReplaceOnMap(dungeonMap, "h", "4");
+
 
             File.WriteAllText(Path.Combine(path, string.Format("terrain-{0}.txt", name)), dungeonMap.ToString());
             File.WriteAllText(Path.Combine(path, string.Format("item-{0}.txt", name)), dungeonItemsMap.ToString());
@@ -668,18 +680,36 @@ namespace MoveThing
                         {
                             // state 1, place a "downstairs"
                             this.SetCell(newx, newy, Tile.Downstairs);
-                            state ++;
+                            state++;
                             break;
                         }
                     }
 
-                    else if (state > 1)
+                    else if (state > 1 && state < 5)
                     {
                         if (ways == 0)
                         {
                             // state > 1, place a "monster"
                             this.SetCell(newx, newy, Tile.Chest);
-                            state ++;
+                            state++;
+                            break;
+                        }
+                    }
+                    else if (state >= 5 && state < 9)
+                    {
+                        if (ways == 0)
+                        {
+                            state++;
+                            this.SetCell(newx, newy, Tile.Fly);
+                            break;
+                        }
+                    }
+                    else if (state == 9)
+                    {
+                        if (ways == 0)
+                        {
+                            state++;
+                            this.SetCell(newx, newy, Tile.FlySwatter);
                             break;
                         }
                     }

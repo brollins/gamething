@@ -10,3 +10,5 @@ C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\obj\Debu
 C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\obj\Debug\MoveThing.Form1.resources
 C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\Newtonsoft.Json.dll
 C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\Newtonsoft.Json.xml
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\DiceNotation.dll
+C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\MoveThing\bin\Debug\Dijkstra.NET.dll

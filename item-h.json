@@ -1,0 +1,1 @@
+{"MovementRestrictions":[],"MovementEnablers":["water"],"MapId":"h","Name":"fly swatter","Description":"A swatter of flies.","CanUse":false,"CanPickup":true,"ToggleMapId":"","IsVisible":true,"IsFog":false,"CanMove":false,"Speed":0,"Readiness":0,"SpeedDice":"0","HealthDice":"0","Health":0,"CanBeDestroyed":false,"DamageEnablers":["blunt"],"DamageRestrictions":[]}
