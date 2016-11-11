@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -16,10 +17,12 @@ namespace MoveThing
         Collection<Layer> layers;
         private PictureBox drawingContext;
         private TextBox txtHistory;
-        private TextBox txtInventory;
+        private ListBox txtInventory;
         int currentRow;
         int currentColumn;
         int spriteSize = 32;
+        Stopwatch gameTimer;
+        string completedTime;
         bool godMode;
         Timer monsterMoveTimer;
         Random random;
@@ -27,7 +30,7 @@ namespace MoveThing
 
         StringBuilder history;
 
-        public VisibleMap(PictureBox drawingContext, TextBox txtHistory, TextBox txtInventory)
+        public VisibleMap(PictureBox drawingContext, TextBox txtHistory, ListBox txtInventory)
         {
             this.drawingContext = drawingContext;
             this.txtHistory = txtHistory;
@@ -38,7 +41,7 @@ namespace MoveThing
             Layers = new Collection<Layer>();
             random = new Random();
 
-            godMode = false;
+            godMode = true;
 
             dungeon.CreateDungeon(70, 70, 400);
             dungeon.SaveDungeon(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\", "random");
@@ -52,6 +55,10 @@ namespace MoveThing
             monsterMoveTimer.Tick += MonsterMoveTimer_Tick;
             monsterMoveTimer.Interval = 200;
             monsterMoveTimer.Start();
+
+            gameTimer = new Stopwatch();
+            gameTimer.Start();
+           
 
             history = new StringBuilder();
 
@@ -128,6 +135,19 @@ namespace MoveThing
             set
             {
                 layers = value;
+            }
+        }
+
+        public string CompletedTime
+        {
+            get
+            {
+                return completedTime;
+            }
+
+            set
+            {
+                completedTime = value;
             }
         }
 
@@ -240,9 +260,23 @@ namespace MoveThing
                         if (resource.Health < 0)
                         {
                             layer.DeleteResource(row, column);
-
+                            //foreach (var currentLayer in layers)   
+                            //{
+                            //    if (currentLayer.Name == "monsterLayer")
+                            //    {
+                            //        foreach (var item in currentLayer.Resources)
+                            //        {
+                            //            if (item.Value.MapId == "`")
+                            //            {
+                            //                gameTimer.Stop();
+                            //                completedTime = gameTimer.Elapsed.Seconds.ToString();
+                            //                MessageBox.Show("Game Over", completedTime);
+                            //            }
+                            //        }
+                            //    }
+                            //}                    
                         }
-                    }           
+                    }
                     else
                     {
                         AddToHistory(string.Format("The {0} resists your attack.", resource.Name));
@@ -263,7 +297,7 @@ namespace MoveThing
             bool canMoveTo = true;
             foreach (var layer in layers)
             {
-                if (!CheckMovementByMap(layer,layer.GetResource(row, column),row,column))
+                if (!CheckMovementByMap(layer, layer.GetResource(row, column), row, column))
                 {
                     canMoveTo = false;
                     break;
@@ -280,25 +314,38 @@ namespace MoveThing
                 if (currentResource.CanPickup)
                 {
                     inventory.Add(currentResource.MapId, currentResource);
+                    txtInventory.Items.Add(currentResource.Name);
                     AddToHistory(string.Format("The wizard picked up a {0}.", currentResource.Name));
                     layer.DeleteResource(currentRow, currentColumn);
                 }
             }
-
+            
             RefreshMap();
 
         }
 
         public void Drop()
         {
-            foreach (var item in inventory.items)
+            Collection<string> tempItems = new Collection<string>();
+            if (inventory.Count != 0)
             {
-                inventory.remove(item)
-             }
-            foreach (var layer in layers)
-            {
-                
+                foreach (var layer in layers)
+                {
+                    foreach (var item in inventory.Values)
+                    {
+                        if (layer.Name == "itemLayer")
+                        {
+                            if (layer.GetResource(currentRow, currentColumn).MapId == "`") {
+                                layer.UpdateResource(currentRow, currentColumn, item);
+                                RefreshMap();
+                                inventory.Remove(item.MapId);
+                                break;
+                            }                            
+                        }
+                    }
+                }
             }
+
 
         }
 
@@ -433,7 +480,6 @@ namespace MoveThing
             drawingContext.Image = visibleBitmap;
             Application.DoEvents();
             txtHistory.Text = history.ToString();
-            txtInventory.Text = "";
             foreach (var inventoryItem in inventory.Values)
             {
                 txtInventory.Text += inventoryItem.Name + Environment.NewLine;
