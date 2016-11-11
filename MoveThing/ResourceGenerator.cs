@@ -40,7 +40,7 @@ namespace MoveThing
             resource.Name = "brass door";
             resource.Description = "A strong, sturdy door with brass inlay.";
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
-
+            
             resource = new Resource();
             resource.MapId = "4";
             resource.Name = "stone tile";
@@ -98,11 +98,12 @@ namespace MoveThing
             resource = new Resource();
             resource.MapId = "b";
             resource.CanUse = true;
-
             resource.ToggleMapId = "a";
             resource.Name = "steel sword";
             resource.CanPickup = true;
             resource.Description = "A sharp steel sword.";
+            resource.DamageModifierDice = "d4-1";
+            resource.DamageDice = "d6";
             resource.MovementEnablers.Add("resource");
             resource.DamageEnablers.Add("blade");
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));

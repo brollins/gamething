@@ -21,7 +21,6 @@ namespace MoveThing
         int width;
         string file;
         string name;
-        Random random;
 
         Dictionary<string, Resource> resources;
         Dictionary<string, Bitmap> sprites;
@@ -30,7 +29,6 @@ namespace MoveThing
         {
             Resources = new Dictionary<string, Resource>();
             sprites = new Dictionary<string, Bitmap>();
-            random = new Random();
             LoadMap(file);
         }
 
@@ -120,6 +118,7 @@ namespace MoveThing
                     Resource resource = JsonConvert.DeserializeObject<Resource>(System.IO.File.ReadAllText(fullResourcePathFileName));
                     resource.Health = Dice.Parse(resource.HealthDice).Roll().Value;
                     resource.Speed = Dice.Parse(resource.SpeedDice).Roll().Value;
+                    resource.DamageModifier = Dice.Parse(resource.DamageModifierDice).Roll().Value;
 
                     Resources.Add(key, resource);
                 }

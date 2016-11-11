@@ -25,7 +25,8 @@ namespace MoveThing
         StoneWall,
         Chest,
         Fly,
-        FlySwatter
+        FlySwatter,
+        Sword
     };
 
     public enum Direction
@@ -68,7 +69,6 @@ namespace MoveThing
         private int maxRoomLength;
         private int maxRoomHeight;
         private int maxCorridorLength;
-        VisibleMap visibleMap;
 
         readonly Action<string> _logger;
 
@@ -357,6 +357,8 @@ namespace MoveThing
                     return '6';
                 case Tile.FlySwatter:
                     return 'h';
+                case Tile.Sword:
+                    return 'b';
                 default:
                     throw new ArgumentOutOfRangeException("x,y");
             }
@@ -396,6 +398,7 @@ namespace MoveThing
             ReplaceOnMap(dungeonMonsterMap, "-", "`");
             ReplaceOnMap(dungeonMonsterMap, "6", "@");
             ReplaceOnMap(dungeonMonsterMap, "h", "`");
+            ReplaceOnMap(dungeonMonsterMap, "b", "`");
             
             ReplaceOnMap(dungeonItemsMap, "1", "`");
             ReplaceOnMap(dungeonItemsMap, "4", "`");
@@ -409,6 +412,7 @@ namespace MoveThing
             ReplaceOnMap(dungeonMap, "C", "4");
             ReplaceOnMap(dungeonMap, "6", "4");
             ReplaceOnMap(dungeonMap, "h", "4");
+            ReplaceOnMap(dungeonMap, "b", "4");
 
 
             File.WriteAllText(Path.Combine(path, string.Format("terrain-{0}.txt", name)), dungeonMap.ToString());
@@ -624,7 +628,7 @@ namespace MoveThing
         {
             // sprinkle out the bonusstuff (stairs, chests etc.) over the map
             int state = 0; // the state the loop is in, start with the stairs
-            while (state != 10)
+            while (state != 11)
             {
                 for (int testing = 0; testing < 1000; testing++)
                 {
@@ -710,6 +714,15 @@ namespace MoveThing
                         {
                             state++;
                             this.SetCell(newx, newy, Tile.FlySwatter);
+                            break;
+                        }
+                    }
+                    else if (state == 10)
+                    {
+                        if (ways == 0)
+                        {
+                            state++;
+                            this.SetCell(newx, newy, Tile.Sword);
                             break;
                         }
                     }

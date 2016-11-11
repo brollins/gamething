@@ -29,6 +29,11 @@ namespace MoveThing
         private int readiness;
         private int health;
         private string healthDice;
+        private int damageModifier;
+        private string damageModifierDice;
+        private string damageDice;
+
+
 
         public Resource()
         {
@@ -43,6 +48,7 @@ namespace MoveThing
             healthDice = "0";
             speedDice = "0";
             isVisible = true;
+            damageModifierDice = "0";
         }
         
         public Collection<string> MovementRestrictions
@@ -289,6 +295,45 @@ namespace MoveThing
             set
             {
                 damageRestrictions = value;
+            }
+        }
+
+        public string DamageModifierDice
+        {
+            get
+            {
+                return damageModifierDice;
+            }
+
+            set
+            {
+                damageModifierDice = value;
+            }
+        }
+
+        public int DamageModifier
+        {
+            get
+            {
+                return damageModifier;
+            }
+
+            set
+            {
+                damageModifier = value;
+            }
+        }
+
+        public string DamageDice
+        {
+            get
+            {
+                return damageDice;
+            }
+
+            set
+            {
+                damageDice = value;
             }
         }
     }

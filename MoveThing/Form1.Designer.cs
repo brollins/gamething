@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.playArea = new System.Windows.Forms.PictureBox();
-            this.txtInventory = new System.Windows.Forms.TextBox();
             this.txtHistory = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtInventory = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.playArea)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,21 +47,6 @@
             this.playArea.TabIndex = 0;
             this.playArea.TabStop = false;
             // 
-            // txtInventory
-            // 
-            this.txtInventory.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.txtInventory.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtInventory.ForeColor = System.Drawing.SystemColors.Menu;
-            this.txtInventory.Location = new System.Drawing.Point(1036, 0);
-            this.txtInventory.Multiline = true;
-            this.txtInventory.Name = "txtInventory";
-            this.txtInventory.ReadOnly = true;
-            this.txtInventory.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtInventory.Size = new System.Drawing.Size(167, 1097);
-            this.txtInventory.TabIndex = 2;
-            this.txtInventory.WordWrap = false;
-            this.txtInventory.Enter += new System.EventHandler(this.txtInventory_Enter);
-            // 
             // txtHistory
             // 
             this.txtHistory.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -73,8 +58,9 @@
             this.txtHistory.Name = "txtHistory";
             this.txtHistory.ReadOnly = true;
             this.txtHistory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtHistory.Size = new System.Drawing.Size(1036, 177);
+            this.txtHistory.Size = new System.Drawing.Size(1203, 177);
             this.txtHistory.TabIndex = 3;
+            this.txtHistory.Enter += new System.EventHandler(this.txtHistory_Enter);
             // 
             // textBox1
             // 
@@ -84,9 +70,21 @@
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(1036, 13);
+            this.textBox1.Size = new System.Drawing.Size(1203, 13);
             this.textBox1.TabIndex = 4;
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            // 
+            // txtInventory
+            // 
+            this.txtInventory.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.txtInventory.BackColor = System.Drawing.SystemColors.InfoText;
+            this.txtInventory.ForeColor = System.Drawing.SystemColors.Window;
+            this.txtInventory.FormattingEnabled = true;
+            this.txtInventory.Location = new System.Drawing.Point(1060, 9);
+            this.txtInventory.Name = "txtInventory";
+            this.txtInventory.Size = new System.Drawing.Size(120, 901);
+            this.txtInventory.TabIndex = 5;
+            this.txtInventory.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInventory_KeyDown);
             // 
             // Form1
             // 
@@ -94,9 +92,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1203, 1097);
+            this.Controls.Add(this.txtInventory);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.txtHistory);
-            this.Controls.Add(this.txtInventory);
             this.Controls.Add(this.playArea);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -111,9 +109,9 @@
         #endregion
 
         private System.Windows.Forms.PictureBox playArea;
-        private System.Windows.Forms.TextBox txtInventory;
         private System.Windows.Forms.TextBox txtHistory;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ListBox txtInventory;
     }
 }
 

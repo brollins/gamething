@@ -19,16 +19,18 @@ namespace MoveThing
             currentVisibleMap.Layers.Add(terrainLayer);
             Layer itemLayer = new Layer(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-random.txt");
             currentVisibleMap.Layers.Add(itemLayer);
+            itemLayer.Name = "itemLayer";
             Layer monsterLayer = new Layer(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-random.txt");
             currentVisibleMap.Layers.Add(monsterLayer);
+            monsterLayer.Name = "monsterLayer";
             Layer fogLayer = new Layer(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\Movething\fog-random.txt");
-            fogLayer.Name = "fog"; 
+            fogLayer.Name = "fog";
             currentVisibleMap.Layers.Add(fogLayer);
 
             currentVisibleMap.RefreshMap();
-        
+
             textBox1.Focus();
-         }
+        }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -56,7 +58,11 @@ namespace MoveThing
             {
                 currentVisibleMap.Use();
             }
-        }       
+            if (e.KeyCode == Keys.D)
+            {
+                currentVisibleMap.Drop();
+            }
+        }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -84,6 +90,10 @@ namespace MoveThing
             {
                 currentVisibleMap.Use();
             }
+            if (e.KeyCode == Keys.D)
+            {
+                currentVisibleMap.Drop();
+            }
         }
 
         private void txtInventory_Enter(object sender, EventArgs e)
@@ -91,13 +101,43 @@ namespace MoveThing
             ActiveControl = textBox1;
         }
 
-        //private void Form1_Resize(object sender, EventArgs e)
-        //{
-        //    playArea.Width = this.Width / 2;
-        //    playArea.Height = this.Height /2;
-        //    txtHistory.Height = this.Height / 5;
-        //    txtInventory.Width = this.Width / 4;
-        //    currentVisibleMap.RefreshMap();
-        //}
+        private void txtInventory_KeyDown(object sender, KeyEventArgs e)
+        {
+            ActiveControl = textBox1;
+
+            if (e.KeyCode == Keys.Right)
+            {
+                currentVisibleMap.MoveRight();
+            }
+            if (e.KeyCode == Keys.Left)
+            {
+                currentVisibleMap.MoveLeft();
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                currentVisibleMap.MoveDown();
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                currentVisibleMap.MoveUp();
+            }
+            if (e.KeyCode == Keys.P)
+            {
+                currentVisibleMap.Pickup();
+            }
+            if (e.KeyCode == Keys.U)
+            {
+                currentVisibleMap.Use();
+            }
+            if (e.KeyCode == Keys.D)
+            {
+                currentVisibleMap.Drop();
+            }
+        }
+
+        private void txtHistory_Enter(object sender, EventArgs e)
+        {
+            ActiveControl = textBox1;
+        }
     }
 }
