@@ -7,6 +7,7 @@ using System.IO;
 using Dijkstra.NET;
 using Dijkstra.NET.Model;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace MoveThing
 {
@@ -105,11 +106,13 @@ namespace MoveThing
             height = map.Length;
             width = map[0].Length;
 
+
             for (int row = 0; row < map.Length; row++)
             {
                 for (int column = 0; column < map[row].Length; column++)
                 {
                     string key = string.Format("{0}-{1}", row, column);
+
                     string resourcePath = Path.GetDirectoryName(file);
                     string resourceIdToLoad = map[row][column].ToString();
                     string resourceFileName = string.Format("{0}-{1}.json", resourceType, resourceIdToLoad);
@@ -123,6 +126,54 @@ namespace MoveThing
                     Resources.Add(key, resource);
                 }
             }
+
+        }
+
+        public void SaveLevel()
+        {
+            if (this.Name == "terrainLayer")
+            {
+                using (StreamWriter writer = new StreamWriter(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\{0}.txt", this.name)))
+
+                    foreach (var entry in Resources)
+                    {
+                        writer.WriteLine(string.Format("{0}-{1}", entry.Key, entry.Value.MapId));
+                    }
+            }
+            if (this.Name == "itemLayer")
+            {
+                using (StreamWriter writer = new StreamWriter(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\{0}.txt", this.name)))
+
+                    foreach (var entry in Resources)
+                    {
+                        writer.WriteLine(string.Format("{0}-{1}", entry.Key, entry.Value.MapId));
+                    }
+            }
+            if (this.Name == "monsterLayer")
+            {
+                using (StreamWriter writer = new StreamWriter(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\{0}.txt", this.name)))
+
+                    foreach (var entry in Resources)
+                    {
+                        writer.WriteLine(string.Format("{0}-{1}", entry.Key, entry.Value.MapId));
+                    }
+            }
+        }
+
+        public void LoadLevel(string fileName)
+        {
+            Dictionary<string, string> newDict = new Dictionary<string, string>();
+            string[] lines = System.IO.File.ReadAllLines(fileName);
+
+            foreach (var currentLine in lines)
+            {
+                String key = string.Format("{0}-{1}", currentLine.Split('-')[0], currentLine.Split('-')[1]);
+                String value = currentLine.Split('-')[2];
+                newDict.Add(key, value);
+                Debug.WriteLine(key);
+                Debug.WriteLine(value);
+            }
+
         }
 
         public Resource GetResource(int row, int column)
@@ -163,6 +214,7 @@ namespace MoveThing
                 UpdateResource(row, column, JsonConvert.DeserializeObject<Resource>(System.IO.File.ReadAllText(fullResourcePathFileName)));
             }
         }
+
         public void ClearFog(int distance, int currentRow, int currentColumn)
         {
             for (int row = 0; row < Height; row++)
@@ -181,7 +233,7 @@ namespace MoveThing
         }
 
         public void Draw(Bitmap bitmap, int upperLeftRow, int upperLeftColumn, int lowerRightRow, int lowerRightColumn)
-        {            
+        {
             for (int row = upperLeftRow; row < lowerRightRow; row++)
             {
                 for (int column = upperLeftColumn; column < lowerRightColumn; column++)
@@ -210,7 +262,6 @@ namespace MoveThing
 
         public void BuildShortestDistanceGraph()
         {
-            
             var graph = new Graph<int, string>();
             graph.AddNode(0);
             graph.AddNode(1);
@@ -225,8 +276,6 @@ namespace MoveThing
             var dijkstra = new Dijkstra<int, string>(graph);
             DijkstraResult result = dijkstra.Process(0, 3); //result contains the shortest path
             IEnumerable<uint> results = result.GetPath();
-
         }
-       
     }
 }

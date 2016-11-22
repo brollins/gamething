@@ -358,7 +358,7 @@ namespace MoveThing
                 case Tile.FlySwatter:
                     return 'h';
                 case Tile.Sword:
-                    return 'b';
+                    return 'b';                    
                 default:
                     throw new ArgumentOutOfRangeException("x,y");
             }
@@ -402,13 +402,13 @@ namespace MoveThing
             
             ReplaceOnMap(dungeonItemsMap, "1", "`");
             ReplaceOnMap(dungeonItemsMap, "4", "`");
-            ReplaceOnMap(dungeonItemsMap, "+", "a");
-            ReplaceOnMap(dungeonItemsMap, "-", "b");
-            ReplaceOnMap(dungeonItemsMap, "C", "`");
+            ReplaceOnMap(dungeonItemsMap, "+", "`");
+            ReplaceOnMap(dungeonItemsMap, "-", "`");
+            ReplaceOnMap(dungeonItemsMap, "C", "b");
             ReplaceOnMap(dungeonItemsMap, "6", "`");
             
-            ReplaceOnMap(dungeonMap, "+", "4");
-            ReplaceOnMap(dungeonMap, "-", "4");
+            ReplaceOnMap(dungeonMap, "+", "+");
+            ReplaceOnMap(dungeonMap, "-", "-");
             ReplaceOnMap(dungeonMap, "C", "4");
             ReplaceOnMap(dungeonMap, "6", "4");
             ReplaceOnMap(dungeonMap, "h", "4");
@@ -419,6 +419,14 @@ namespace MoveThing
             File.WriteAllText(Path.Combine(path, string.Format("item-{0}.txt", name)), dungeonItemsMap.ToString());
             File.WriteAllText(Path.Combine(path, string.Format("monster-{0}.txt", name)), dungeonMonsterMap.ToString());
             File.WriteAllText(Path.Combine(path, string.Format("fog-{0}.txt", name)), dungeonFogMap.ToString());
+        }
+
+        private void SaveLevel(string path, string levelNumber)
+        {
+            //File.WriteAllText(Path.Combine(path, string.Format("terrain-{0}.txt", levelNumber)), dungeonMap.ToString());
+            //File.WriteAllText(Path.Combine(path, string.Format("item-{0}.txt", levelNumber)), dungeonItemsMap.ToString());
+            //File.WriteAllText(Path.Combine(path, string.Format("monster-{0}.txt", levelNumber)), dungeonMonsterMap.ToString());
+            //File.WriteAllText(Path.Combine(path, string.Format("fog-{0}.txt", levelNumber)), dungeonFogMap.ToString());
         }
 
         private void ReplaceOnMap(StringBuilder map, string currentValue, string newValue)

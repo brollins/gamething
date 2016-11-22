@@ -32,6 +32,7 @@ namespace MoveThing
         private int damageModifier;
         private string damageModifierDice;
         private string damageDice;
+        private string alignment;
 
 
 
@@ -334,6 +335,19 @@ namespace MoveThing
             set
             {
                 damageDice = value;
+            }
+        }
+
+        public string Alignment
+        {
+            get
+            {
+                return alignment;
+            }
+
+            set
+            {
+                alignment = value;
             }
         }
     }

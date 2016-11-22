@@ -58,7 +58,7 @@ namespace MoveThing
 
             gameTimer = new Stopwatch();
             gameTimer.Start();
-           
+
 
             history = new StringBuilder();
 
@@ -260,21 +260,6 @@ namespace MoveThing
                         if (resource.Health < 0)
                         {
                             layer.DeleteResource(row, column);
-                            //foreach (var currentLayer in layers)   
-                            //{
-                            //    if (currentLayer.Name == "monsterLayer")
-                            //    {
-                            //        foreach (var item in currentLayer.Resources)
-                            //        {
-                            //            if (item.Value.MapId == "`")
-                            //            {
-                            //                gameTimer.Stop();
-                            //                completedTime = gameTimer.Elapsed.Seconds.ToString();
-                            //                MessageBox.Show("Game Over", completedTime);
-                            //            }
-                            //        }
-                            //    }
-                            //}                    
                         }
                     }
                     else
@@ -319,9 +304,27 @@ namespace MoveThing
                     layer.DeleteResource(currentRow, currentColumn);
                 }
             }
-            
-            RefreshMap();
 
+            RefreshMap();
+        }
+
+        public void Save()
+        {
+            foreach (var layer in layers)
+            {
+                layer.SaveLevel();
+            }
+        }
+
+        public void Load()
+        {
+            foreach (var layer in layers)
+            {
+                if (layer.Name != "fog")
+                {
+                    layer.LoadLevel(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\{0}.txt", layer.Name));
+                }
+            }
         }
 
         public void Drop()
@@ -335,18 +338,18 @@ namespace MoveThing
                     {
                         if (layer.Name == "itemLayer")
                         {
-                            if (layer.GetResource(currentRow, currentColumn).MapId == "`") {
+                            if (layer.GetResource(currentRow, currentColumn).MapId == "`")
+                            {
                                 layer.UpdateResource(currentRow, currentColumn, item);
                                 RefreshMap();
                                 inventory.Remove(item.MapId);
+                                txtInventory.Items.Remove(item.Name);
                                 break;
-                            }                            
+                            }
                         }
                     }
                 }
             }
-
-
         }
 
         public void Use()
