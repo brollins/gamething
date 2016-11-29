@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace MoveThing
 {
-    class ResourceVisibility
+    public enum ResourceVisibility
     {
+
+
+        Visible = 0,
+        Invisible = 1
     }
 }

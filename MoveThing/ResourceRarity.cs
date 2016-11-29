@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace MoveThing
 {
-    class ResourceRarity
+    public enum ResourceRarity
     {
+        Common = 10,
+        Uncommon = 20,
+        Rare = 30,
+        UltraRare = 40
     }
 }

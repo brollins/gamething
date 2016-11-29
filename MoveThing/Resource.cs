@@ -20,7 +20,7 @@ namespace MoveThing
         private bool canUse;
         private bool canPickup;
         private string toggleMapId;
-        private bool isVisible;
+        private ResourceVisibility visibility;
         private bool canMove;
         private bool isFog;
         private bool canBeDestroyed;
@@ -34,6 +34,7 @@ namespace MoveThing
         private string damageDice;
         private string alignment;
         private bool isTrap;
+        private ResourceRarity rarity;
 
 
 
@@ -49,11 +50,13 @@ namespace MoveThing
             toggleMapId = string.Empty;
             healthDice = "0";
             speedDice = "0";
-            isVisible = true;
             damageModifierDice = "0";
             IsTrap = false;
+            rarity = ResourceRarity.Common;
+            Visibility = ResourceVisibility.Visible;
+
         }
-        
+
         public Collection<string> MovementRestrictions
         {
             get
@@ -157,20 +160,7 @@ namespace MoveThing
                 toggleMapId = value;
             }
         }
-
-        public bool IsVisible
-        {
-            get
-            {
-                return isVisible;
-            }
-
-            set
-            {
-                isVisible = value;
-            }
-        }
-
+       
         public bool IsFog
         {
             get
@@ -363,6 +353,32 @@ namespace MoveThing
             set
             {
                 isTrap = value;
+            }
+        }
+
+        public ResourceRarity Rarity
+        {
+            get
+            {
+                return rarity;
+            }
+
+            set
+            {
+                rarity = value;
+            }
+        }
+
+        public ResourceVisibility Visibility
+        {
+            get
+            {
+                return visibility;
+            }
+
+            set
+            {
+                visibility = value;
             }
         }
     }

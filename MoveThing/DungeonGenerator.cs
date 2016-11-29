@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -339,16 +340,18 @@ namespace MoveThing
             SaveDungeon(fileName);
         }
 
-        public void GenerateResources(string fileName)
+        public void GenerateResources(string fileName, char[,] map, Collection<Resource> resourcesToGenerate)
         {
             CreateBlankDungeon(nonResourceCharacter);
 
+            map = new Char[,];
+            // instantiate terrain map as char[,]
+            // picks random location and checks terrainmap for floor. if it is, generate resource
 
 
 
 
             SaveDungeon(fileName);
-
         }
 
         private void AddHallways(int randomRoomHeight, int randomRoomWidth, int additionalFillPercentage)
@@ -448,15 +451,5 @@ namespace MoveThing
                 }
             }
         }
-
-
-
-
-
-
-        // create method to return width/height
-        // create method to loop through 
-        // replace on 
-
     }
 }

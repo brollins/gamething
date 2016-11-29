@@ -233,7 +233,7 @@ namespace MoveThing
                     if (row > 0 && row < height && column > 0 && column < width)
                     {
                         Resource currentResource = Resources[string.Format("{0}-{1}", row, column)];
-                        if (currentResource.IsVisible)
+                        if (currentResource.Visibility == ResourceVisibility.Visible)
                         {
                             if (!sprites.ContainsKey(currentResource.MapId))
                             {

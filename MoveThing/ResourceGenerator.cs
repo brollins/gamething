@@ -14,7 +14,7 @@ namespace MoveThing
             resource = new Resource();
             resource.MapId = "`";
 
-            resource.IsVisible = false;
+            resource.Visibility = ResourceVisibility.Invisible;
             resource.Name = "";
             resource.Description = "";
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
@@ -97,7 +97,7 @@ namespace MoveThing
             resource = new Resource();
             resource.MapId = "`";
 
-            resource.IsVisible = false;
+            resource.Visibility = ResourceVisibility.Invisible;
             resource.Name = "";
             resource.Description = "";
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\item-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
@@ -179,7 +179,7 @@ namespace MoveThing
 
             resource = new Resource();
             resource.MapId = "`";
-            resource.IsVisible = false;
+            resource.Visibility = ResourceVisibility.Invisible;
             resource.Name = "";
             resource.Description = "";
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
@@ -195,7 +195,7 @@ namespace MoveThing
             resource.CanBeDestroyed = true;
             resource.Description = "A green dragon.";
             resource.DamageRestrictions.Add("blade");
-            resource.MovementRestrictions.Add("monster");            
+            resource.MovementRestrictions.Add("monster");
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\monster-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
             resource = new Resource();
@@ -225,7 +225,7 @@ namespace MoveThing
             resource = new Resource();
             resource.MapId = "t";
             resource.IsFog = true;
-            resource.IsVisible = false;
+            resource.Visibility = ResourceVisibility.Invisible;
             resource.Name = "";
             resource.Description = "transparent fog";
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\fog-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));

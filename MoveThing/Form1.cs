@@ -17,8 +17,7 @@ namespace MoveThing
 
             DungeonGenerator generator = new DungeonGenerator();
            // generator.RandomSeed = 100;
-            generator.GenerateDungeon();
-            generator.SaveDungeon(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-random.txt");
+            generator.GenerateTerrain(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-random.txt");
 
             currentVisibleMap = new VisibleMap(playArea, txtHistory, txtInventory);
             //Layer terrainLayer = new Layer(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-random.txt");
