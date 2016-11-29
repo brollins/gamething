@@ -44,7 +44,7 @@ namespace MoveThing
             godMode = true;
 
             dungeon.CreateDungeon(70, 70, 400);
-            dungeon.SaveDungeon(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\", "random");
+            //dungeon.SaveDungeon(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\", "random");
             Tile[] tiles = dungeon.GetDungeon();
 
             CurrentRow = 35;
@@ -58,8 +58,7 @@ namespace MoveThing
 
             gameTimer = new Stopwatch();
             gameTimer.Start();
-
-
+            
             history = new StringBuilder();
 
             ResourceGenerator.Generate();
@@ -70,8 +69,6 @@ namespace MoveThing
             MoveResources();
             RefreshMap();
         }
-
-
 
         public int CurrentRow
         {
@@ -202,6 +199,7 @@ namespace MoveThing
                 return true;
             bool canMoveTo = false;
             int movementEnablerCount = 0;
+
             foreach (var restriction in resource.MovementRestrictions)
             {
                 foreach (var inventoryItem in inventory.Values)
@@ -220,6 +218,27 @@ namespace MoveThing
                     if (enabler.Value == restriction)
                     {
                         movementEnablerCount++;
+                    }
+                }
+            }
+
+            if (resource.IsTrap)
+            {
+                foreach (var level in layers)
+                {
+                    if (level.Name == "terrainLayer")
+                    {
+                        Resource northResource = level.GetResource(row - 1, column);
+                        Resource eastResource = level.GetResource(row, column + 1);
+                        Resource southResource = level.GetResource(row + 1, column);
+                        Resource westResource = level.GetResource(row, column - 1);
+                        northResource.MovementRestrictions.Add("quicksand");
+                        eastResource.MovementRestrictions.Add("quicksand");
+                        southResource.MovementRestrictions.Add("quicksand");
+                        westResource.MovementRestrictions.Add("quicksand");
+
+                        level.ToggleResource(row, column);
+                        resource.ToggleMapId = "";
                     }
                 }
             }
@@ -304,7 +323,6 @@ namespace MoveThing
                     layer.DeleteResource(currentRow, currentColumn);
                 }
             }
-
             RefreshMap();
         }
 

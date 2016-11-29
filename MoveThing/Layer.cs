@@ -13,11 +13,6 @@ namespace MoveThing
 {
     public class Layer
     {
-
-        // ready the sprites
-        // draw similar to refresh
-        // save the layers
-
         int height;
         int width;
         string file;
@@ -105,8 +100,7 @@ namespace MoveThing
             string resourceType = Path.GetFileNameWithoutExtension(file).Split('-')[0];
             height = map.Length;
             width = map[0].Length;
-
-
+            
             for (int row = 0; row < map.Length; row++)
             {
                 for (int column = 0; column < map[row].Length; column++)
@@ -126,7 +120,6 @@ namespace MoveThing
                     Resources.Add(key, resource);
                 }
             }
-
         }
 
         public void SaveLevel()
@@ -173,7 +166,6 @@ namespace MoveThing
                 Debug.WriteLine(key);
                 Debug.WriteLine(value);
             }
-
         }
 
         public Resource GetResource(int row, int column)

@@ -26,7 +26,8 @@ namespace MoveThing
         Chest,
         Fly,
         FlySwatter,
-        Sword
+        Sword, 
+        Fakedirt
     };
 
     public enum Direction
@@ -358,7 +359,9 @@ namespace MoveThing
                 case Tile.FlySwatter:
                     return 'h';
                 case Tile.Sword:
-                    return 'b';                    
+                    return 'b';
+                case Tile.Fakedirt:
+                    return 'y';                 
                 default:
                     throw new ArgumentOutOfRangeException("x,y");
             }
@@ -399,14 +402,18 @@ namespace MoveThing
             ReplaceOnMap(dungeonMonsterMap, "6", "@");
             ReplaceOnMap(dungeonMonsterMap, "h", "`");
             ReplaceOnMap(dungeonMonsterMap, "b", "`");
-            
+            ReplaceOnMap(dungeonMonsterMap, "y", "`");
+
+
             ReplaceOnMap(dungeonItemsMap, "1", "`");
             ReplaceOnMap(dungeonItemsMap, "4", "`");
             ReplaceOnMap(dungeonItemsMap, "+", "`");
             ReplaceOnMap(dungeonItemsMap, "-", "`");
             ReplaceOnMap(dungeonItemsMap, "C", "b");
             ReplaceOnMap(dungeonItemsMap, "6", "`");
-            
+            ReplaceOnMap(dungeonItemsMap, "y", "`");
+
+
             ReplaceOnMap(dungeonMap, "+", "+");
             ReplaceOnMap(dungeonMap, "-", "-");
             ReplaceOnMap(dungeonMap, "C", "4");
@@ -707,12 +714,21 @@ namespace MoveThing
                             break;
                         }
                     }
-                    else if (state >= 5 && state < 9)
+                    else if (state >= 5 && state < 8)
                     {
                         if (ways == 0)
                         {
                             state++;
                             this.SetCell(newx, newy, Tile.Fly);
+                            break;
+                        }
+                    }
+                    else if (state == 8)
+                    {
+                        if (ways == 0)
+                        {
+                            state++;
+                            this.SetCell(newx, newy, Tile.Fakedirt);
                             break;
                         }
                     }
@@ -734,6 +750,7 @@ namespace MoveThing
                             break;
                         }
                     }
+                    
                 }
             }
         }

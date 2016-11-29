@@ -33,6 +33,7 @@ namespace MoveThing
         private string damageModifierDice;
         private string damageDice;
         private string alignment;
+        private bool isTrap;
 
 
 
@@ -50,6 +51,7 @@ namespace MoveThing
             speedDice = "0";
             isVisible = true;
             damageModifierDice = "0";
+            IsTrap = false;
         }
         
         public Collection<string> MovementRestrictions
@@ -348,6 +350,19 @@ namespace MoveThing
             set
             {
                 alignment = value;
+            }
+        }
+
+        public bool IsTrap
+        {
+            get
+            {
+                return isTrap;
+            }
+
+            set
+            {
+                isTrap = value;
             }
         }
     }

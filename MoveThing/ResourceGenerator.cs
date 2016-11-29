@@ -77,9 +77,19 @@ namespace MoveThing
 
             resource = new Resource();
             resource.MapId = "x";
-            resource.ToggleMapId = "4";
+            resource.ToggleMapId = "y";
+            resource.CanUse = true;
+            resource.IsTrap = true;
             resource.Name = "quicksand";
             resource.Description = "A pit of quicksand.";
+            File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
+
+            resource = new Resource();
+            resource.MapId = "y";
+            resource.ToggleMapId = "x";
+            resource.IsTrap = true;
+            resource.Name = "fakedirt";
+            resource.Description = "A pit of dirt that looks like quicksand.";
             File.WriteAllText(string.Format(@"C:\Users\brad\Documents\Visual Studio 2015\Projects\MoveThing\terrain-{0}.json", resource.MapId), JsonConvert.SerializeObject(resource));
 
             // items
